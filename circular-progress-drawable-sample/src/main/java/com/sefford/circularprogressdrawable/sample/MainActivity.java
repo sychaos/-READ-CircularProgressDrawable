@@ -90,6 +90,7 @@ public class MainActivity extends Activity {
         btStyle3 = (Button) findViewById(R.id.bt_style_3);
         btStyle4 = (Button) findViewById(R.id.bt_style_4);
 
+        //  使用builder 恩
         drawable = new CircularProgressDrawable.Builder()
                 .setRingWidth(getResources().getDimensionPixelSize(R.dimen.drawable_ring_size))
                 .setOutlineColor(getResources().getColor(android.R.color.darker_gray))
@@ -115,6 +116,7 @@ public class MainActivity extends Activity {
      * @return Animation
      */
     private Animator preparePressedAnimation() {
+        //  属性动画 更改circleScale
         Animator animation = ObjectAnimator.ofFloat(drawable, CircularProgressDrawable.CIRCLE_SCALE_PROPERTY,
                 drawable.getCircleScale(), 0.65f);
         animation.setDuration(120);
@@ -129,9 +131,11 @@ public class MainActivity extends Activity {
     private Animator preparePulseAnimation() {
         AnimatorSet animation = new AnimatorSet();
 
+        //  属性动画 更改circleScale
         Animator firstBounce = ObjectAnimator.ofFloat(drawable, CircularProgressDrawable.CIRCLE_SCALE_PROPERTY,
                 drawable.getCircleScale(), 0.88f);
         firstBounce.setDuration(300);
+        //  插值器 CycleInterpolator 动画循环播放特定的次数，速率改变沿着正弦曲线
         firstBounce.setInterpolator(new CycleInterpolator(1));
         Animator secondBounce = ObjectAnimator.ofFloat(drawable, CircularProgressDrawable.CIRCLE_SCALE_PROPERTY,
                 0.75f, 0.83f);
@@ -142,6 +146,7 @@ public class MainActivity extends Activity {
         thirdBounce.setDuration(300);
         thirdBounce.setInterpolator(new CycleInterpolator(1));
 
+        // 顺序播放
         animation.playSequentially(firstBounce, secondBounce, thirdBounce);
         return animation;
     }
@@ -155,6 +160,7 @@ public class MainActivity extends Activity {
     private Animator prepareStyle1Animation() {
         AnimatorSet animation = new AnimatorSet();
 
+        //  属性动画 更改circleScale，progress
         final Animator indeterminateAnimation = ObjectAnimator.ofFloat(drawable, CircularProgressDrawable.PROGRESS_PROPERTY, 0, 3600);
         indeterminateAnimation.setDuration(3600);
 
@@ -174,6 +180,7 @@ public class MainActivity extends Activity {
             }
         });
 
+        // 同时播放
         animation.playTogether(innerCircleAnimation, indeterminateAnimation);
         return animation;
     }
@@ -186,6 +193,7 @@ public class MainActivity extends Activity {
     private Animator prepareStyle2Animation() {
         AnimatorSet animation = new AnimatorSet();
 
+        //  属性动画 更改ringColor，progress
         ObjectAnimator progressAnimation = ObjectAnimator.ofFloat(drawable, CircularProgressDrawable.PROGRESS_PROPERTY,
                 0f, 1f);
         progressAnimation.setDuration(3600);
@@ -210,6 +218,7 @@ public class MainActivity extends Activity {
     private Animator prepareStyle3Animation() {
         AnimatorSet animation = new AnimatorSet();
 
+        //  属性动画 更改progress，circleScale 先从0到3/4，后从3/4到0
         ObjectAnimator progressAnimation = ObjectAnimator.ofFloat(drawable, CircularProgressDrawable.PROGRESS_PROPERTY, 0.75f, 0f);
         progressAnimation.setDuration(1200);
         progressAnimation.setInterpolator(new AnticipateInterpolator());
